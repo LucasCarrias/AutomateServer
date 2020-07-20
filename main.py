@@ -4,7 +4,7 @@ from http import HTTPStatus
 
 class Flashligth():
     def __init__(self):
-        self.is_on = False
+        self.is_on = 0
 
     def set_on(self, turn_on):
         self.is_on= turn_on
@@ -52,20 +52,14 @@ def flahslight_get():
 
 @bobo.post('/flashlight', content_type='application/json')
 def flahslight_post(turn_on):
-    if not type(turn_on) is bool:
-        raise RuntimeError(HTTPStatus(400))
     cellphone.flashlight.set_on(turn_on)
     return {
         "isOn": cellphone.flashlight.is_on
     }
 
 
-@bobo.get('/battery/:info', content_type='application/json')
-def battery(info=None):
-    if info == "power":
-        return cellphone.battery.power
-    elif info == "mode":
-        return cellphone.battery.mode
+@bobo.get('/battery', content_type='application/json')
+def battery():
     return cellphone.battery.get_status()
 
 
